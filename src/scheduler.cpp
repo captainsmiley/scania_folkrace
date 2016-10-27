@@ -3,7 +3,6 @@
 TgScheculer::TgScheculer()
 {
   //setup_timer();
-
 }
 uint16_t TgScheculer::int_count = 0;
 TgTimer3 TgScheculer::t3;

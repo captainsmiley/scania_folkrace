@@ -76,12 +76,12 @@ void RunEverySec()
 	static uint32_t secounds = 0;
 	secounds++;
 	debug_print(String("Sec: ") + String(secounds)  );
-	/*
-	for(uint32_t i=0; i< 3000 ; ++i)
+
+	for(uint32_t i=0; i< 300 ; ++i)
 	{
 		readSensors();
 	}
-	*/
+
 	//delay(500);
 	//debug_print("Sec loop done");
 }
@@ -111,6 +111,9 @@ CS43 CS42 CS41 CS40 Asynchronous Clocking Mode Synchronous Clocking Mode
 f = (16 000 000 / X) / 512
 
 */
+
+
+
 void setup()
 {
 	noInterrupts();
