@@ -1,13 +1,13 @@
 #include "scheduler.h"
 
-TgScheculer::TgScheculer()
+Scheduler::Scheduler()
 {
   //setup_timer();
 }
-uint16_t TgScheculer::int_count = 0;
-TgTimer3 TgScheculer::t3;
-uint8_t TgScheculer::task_count = 0;
-Task TgScheculer::task_vec[5] = {
+uint16_t Scheduler::int_count = 0;
+Timer3 Scheduler::t3;
+uint8_t Scheduler::task_count = 0;
+Task Scheduler::task_vec[5] = {
   Task("",0,NULL),
   Task("",0,NULL),
   Task("",0,NULL),
@@ -16,7 +16,7 @@ Task TgScheculer::task_vec[5] = {
 };
 
 
-void TgScheculer::main_tick()
+void Scheduler::main_tick()
 {
   int_count++;
   for (uint8_t i=0;i<task_count;++i)
@@ -32,7 +32,7 @@ void TgScheculer::main_tick()
       task_vec[i].running = true;
   interrupts();
       task_vec[i].fp();
-      noInterrupts();
+     // noInterrupts();
       task_vec[i].running = false;
       task_vec[i].exe_time = int_count-old_int_count;
     }
@@ -40,19 +40,19 @@ void TgScheculer::main_tick()
 
   //if (int_count > 10000) int_count = 0;
 }
-void TgScheculer::setup()
+void Scheduler::setup()
 {
   task_count = 0;
 
 }
 
-void TgScheculer::add_task(Task t)
+void Scheduler::add_task(Task t)
 {
   if (task_count >= 5) return;
   task_vec[task_count] = t;
   task_count++;
 }
-bool TgScheculer::task_ovf()
+bool Scheduler::task_ovf()
 {
   for(uint8_t i=0;i<task_count;++i)
   {
@@ -62,7 +62,7 @@ bool TgScheculer::task_ovf()
   }
   return false;
 }
-String TgScheculer::name_of_ovf_task()
+String Scheduler::name_of_ovf_task()
 {
   for(uint8_t i=0;i<task_count;++i)
   {
@@ -71,7 +71,7 @@ String TgScheculer::name_of_ovf_task()
   return "no";
 }
 
-void TgScheculer::print_exe_times()
+void Scheduler::print_exe_times()
 {
   for(uint8_t i=0;i<task_count;++i)
   {
@@ -79,10 +79,10 @@ void TgScheculer::print_exe_times()
   }
 }
 
-void TgScheculer::setup_timer()
+void Scheduler::setup_timer()
 {
 	t3.set_ocr_interrupt(&main_tick);
-	t3.set_mode(TgTimer3::CTC_OCR);
+	t3.set_mode(Timer3::CTC_OCR);
 	t3.set_dt_ocr(1);
 	t3.set_ocr_interrupt(true);
 }

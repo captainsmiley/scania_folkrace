@@ -1,20 +1,20 @@
 #ifndef SCHEDULER_TG
 #define SCHEDULER_TG
 
-#include "TgTimer3.h"
+#include "timer3.h"
 #include "task.h"
 
 
-class TgScheculer
+class Scheduler
 {
-  static TgTimer3 t3;
+  static Timer3 t3;
 
 public:
-  TgScheculer();
+  Scheduler();
   static uint16_t int_count;
   void setup();
   void setup_timer();
-  friend class TgTimer3;
+  friend class Timer3;
   void add_task(Task t);
   bool task_ovf();
   String name_of_ovf_task();
