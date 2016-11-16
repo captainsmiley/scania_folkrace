@@ -30,7 +30,7 @@ void Scheduler::main_tick()
       }
       int old_int_count = int_count;
       task_vec[i].running = true;
-  interrupts();
+      interrupts();
       task_vec[i].fp();
      // noInterrupts();
       task_vec[i].running = false;

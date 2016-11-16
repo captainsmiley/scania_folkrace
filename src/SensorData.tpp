@@ -50,12 +50,32 @@ T SensorData<T>::getAvg(uint16_t n) const
 }
 
 template <class T>
+T SensorData<T>::getAvg(uint16_t n, uint16_t t) const
+{
+	T res = 0;
+	for(int i=0;i<n;++i) res += get(i+t);
+	return res/n;
+}
+
+template <class T>
 T SensorData<T>::get()
 {
 	cli();
 	T data = *(m_data+m_pos);
 	sei();
 	return data;
+}
+
+template <class T>
+T SensorData<T>::getDev(uint16_t n) const
+{
+	T dev = 0;
+	uint16_t avg = getAvg(n);
+	for(int i=0;i<n;++i)
+	{
+		dev += abs( ((int)get(i)) - ( (int) avg ));
+	}
+	return dev/n;
 }
 
 template <class T>

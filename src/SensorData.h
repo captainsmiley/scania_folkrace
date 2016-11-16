@@ -18,6 +18,8 @@ public:
 	T get();
 	T get(uint16_t n) const;
 	T getAvg(uint16_t n) const;
+	T getAvg(uint16_t n,uint16_t t) const;
+	T getDev(uint16_t n) const;
 	virtual ~SensorData();
 private:
 	T *m_data;
