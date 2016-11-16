@@ -18,24 +18,24 @@
  */
 
 
-#include <windows.h>
+//#include <windows.h>
 #include <stdio.h>    // sprintf(), vsnprintf(), printf()
 
 #ifdef _MSC_VER
 #define snprintf _snprintf
 #endif
 
-#include "vl53l0x_i2c_platform.h"
-#include "vl53l0x_def.h"
+#include "../inc/vl53l0x_i2c_platform.h"
+#include "../../core/inc/vl53l0x_def.h"
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
-#include <time.h>
-#include "SERIAL_COMMS.h"
+//#include <windows.h>
+//#include <time.h>
+//#include "SERIAL_COMMS.h"
 //#include "comms_platform.h"
 
-#include "vl53l0x_platform_log.h"
+#include "../inc/vl53l0x_platform_log.h"
 
 #ifdef VL53L0X_LOG_ENABLE
 #define trace_print(level, ...) trace_print_module_function(TRACE_MODULE_PLATFORM, level, TRACE_FUNCTION_NONE, ##__VA_ARGS__)

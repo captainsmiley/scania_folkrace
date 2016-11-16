@@ -4,8 +4,10 @@
 #include "settings.h"
 #include "scheduler.h"
 #include "SensorData.h"
+
+#include <Tofsensor.h>
 //#include <VL53L0X.h>
-//#include <Wire.h>
+#include <Wire.h>
 
 
 
@@ -18,6 +20,7 @@ SensorData<uint16_t> s2(100);
 SensorData<uint16_t> s3(100);
 bool drive_active = true;
 //VL53L0X tof_sensor;
+Tof_sensor tof;
 
 // Global variables
 int turn_value = 90;
