@@ -26,9 +26,9 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
-#include "../inc/vl53l0x_api.h"
-#include "../inc/vl53l0x_api_core.h"
-#include "../inc/vl53l0x_api_strings.h"
+#include "vl53l0x_api.h"
+#include "vl53l0x_api_core.h"
+#include "vl53l0x_api_strings.h"
 
 #ifndef __KERNEL__
 #include <stdlib.h>
@@ -50,7 +50,7 @@ VL53L0X_Error VL53L0X_check_part_used(VL53L0X_DEV Dev,
 	uint8_t ModuleIdInt;
 	char *ProductId_tmp;
 
-	LOG_FUNCTION_START("");
+	//LOG_FUNCTION_START("");
 
 	Status = VL53L0X_get_info_from_device(Dev, 2);
 
@@ -68,7 +68,7 @@ VL53L0X_Error VL53L0X_check_part_used(VL53L0X_DEV Dev,
 	}
 	}
 
-	LOG_FUNCTION_END(Status);
+	//LOG_FUNCTION_END(Status);
 	return Status;
 }
 
@@ -83,6 +83,9 @@ VL53L0X_Error VL53L0X_get_device_info(VL53L0X_DEV Dev,
 	Status = VL53L0X_check_part_used(Dev, &Revision, pVL53L0X_DeviceInfo);
 
 	if (Status == VL53L0X_ERROR_NONE) {
+
+
+		/*
 		if (Revision == 0) {
 			VL53L0X_COPYSTRING(pVL53L0X_DeviceInfo->Name,
 					VL53L0X_STRING_DEVICE_INFO_NAME_TS0);
@@ -96,9 +99,14 @@ VL53L0X_Error VL53L0X_get_device_info(VL53L0X_DEV Dev,
 			VL53L0X_COPYSTRING(pVL53L0X_DeviceInfo->Name,
 					VL53L0X_STRING_DEVICE_INFO_NAME_ES1);
 		}
+		*/
+			//VL53L0X_COPYSTRING(pVL53L0X_DeviceInfo->Name,"VL53");
 
-		VL53L0X_COPYSTRING(pVL53L0X_DeviceInfo->Type,
-				VL53L0X_STRING_DEVICE_INFO_TYPE);
+			//char * test2 = "jfkkjfkdjfkdj";
+
+			//test2 = "jkdjgldjglkjdlgjkjdgkjlkgjldkg dfjsjhfjdhfksjhgdkjsfhgkjsfhkjghskjfhgskjfghkfsj";
+		//VL53L0X_COPYSTRING(test,
+		//		"fjd");
 
 	}
 

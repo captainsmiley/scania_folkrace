@@ -26,12 +26,12 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
-#include "../inc/vl53l0x_api.h"
-#include "../inc/vl53l0x_tuning.h"
-#include "../inc/vl53l0x_interrupt_threshold_settings.h"
-#include "../inc/vl53l0x_api_core.h"
-#include "../inc/vl53l0x_api_calibration.h"
-#include "../inc/vl53l0x_api_strings.h"
+#include "vl53l0x_api.h"
+#include "vl53l0x_tuning.h"
+#include "vl53l0x_interrupt_threshold_settings.h"
+#include "vl53l0x_api_core.h"
+#include "vl53l0x_api_calibration.h"
+#include "vl53l0x_api_strings.h"
 
 #ifndef __KERNEL__
 #include <stdlib.h>
@@ -103,11 +103,11 @@ VL53L0X_Error VL53L0X_GetDeviceInfo(VL53L0X_DEV Dev,
 	VL53L0X_DeviceInfo_t *pVL53L0X_DeviceInfo)
 {
 	VL53L0X_Error Status = VL53L0X_ERROR_NONE;
-	LOG_FUNCTION_START("");
+	//LOG_FUNCTION_START("");
 
 	Status = VL53L0X_get_device_info(Dev, pVL53L0X_DeviceInfo);
 
-	LOG_FUNCTION_END(Status);
+	//LOG_FUNCTION_END(Status);
 	return Status;
 }
 
@@ -371,7 +371,7 @@ VL53L0X_Error VL53L0X_DataInit(VL53L0X_DEV Dev)
 	int i;
 	uint8_t StopVariable;
 
-	LOG_FUNCTION_START("");
+	//LOG_FUNCTION_START("");
 
 	/* by default the I2C is running at 1V8 if you want to change it you
 	 * need to include this define at compilation level. */
@@ -501,7 +501,7 @@ VL53L0X_Error VL53L0X_DataInit(VL53L0X_DEV Dev)
 		VL53L0X_SETDEVICESPECIFICPARAMETER(Dev, RefSpadsInitialised, 0);
 
 
-	LOG_FUNCTION_END(Status);
+	//LOG_FUNCTION_END(Status);
 	return Status;
 }
 
@@ -2811,14 +2811,14 @@ VL53L0X_Error VL53L0X_GetInterruptThresholds(VL53L0X_DEV Dev,
 
 	Status = VL53L0X_RdWord(Dev, VL53L0X_REG_SYSTEM_THRESH_LOW, &Threshold16);
 	/* Need to multiply by 2 because the FW will apply a x2 */
-	*pThresholdLow = (FixPoint1616_t)((0x00fff & Threshold16) << 17);
+	*pThresholdLow = (FixPoint1616_t)(((int32_t)0x00fff & (int32_t)Threshold16) << 17);
 
 	if (Status == VL53L0X_ERROR_NONE) {
 		Status = VL53L0X_RdWord(Dev, VL53L0X_REG_SYSTEM_THRESH_HIGH,
 			&Threshold16);
 		/* Need to multiply by 2 because the FW will apply a x2 */
 		*pThresholdHigh =
-			(FixPoint1616_t)((0x00fff & Threshold16) << 17);
+			(FixPoint1616_t)(((int32_t)0x00fff & (int32_t)Threshold16) << 17);
 	}
 
 	LOG_FUNCTION_END(Status);

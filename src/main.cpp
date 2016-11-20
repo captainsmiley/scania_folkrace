@@ -4,23 +4,25 @@
 #include "settings.h"
 #include "scheduler.h"
 #include "SensorData.h"
+#include "Com.h"
 
-#include <Tofsensor.h>
+//#include <Tofsensor.h>
 //#include <VL53L0X.h>
-#include <Wire.h>
+//#include <Wire.h>
 
 
 
 // Global objects
 Servo turn;
 Timer4 t4;
+Com com;
 Scheduler s;
-SensorData<uint16_t> s1(100);
-SensorData<uint16_t> s2(100);
-SensorData<uint16_t> s3(100);
+SensorData<uint16_t> s1(10);
+SensorData<uint16_t> s2(10);
+SensorData<uint16_t> s3(10);
 bool drive_active = true;
 //VL53L0X tof_sensor;
-Tof_sensor tof;
+//Tof_sensor tof;
 
 // Global variables
 int turn_value = 90;
@@ -38,13 +40,15 @@ uint16_t debug_dev_s1 = 0;
 
 
 void debug_print(const char * s) {
-	#if SERIAL_DEBUG
+	#ifdef SERIAL_DEBUG
 	Serial.println(s);
 	#endif
 }
 void debug_print(String s) {
-	#if SERIAL_DEBUG
-	Serial.println(s);
+	#ifdef SERIAL_DEBUG
+	char s_buff[22];
+	s.toCharArray(s_buff,22);
+	com.outln(s_buff);
 	#endif
 }
 
@@ -141,15 +145,14 @@ void control() {
 
 
 	fw = map(400,0,1023,0,255);
-
 	sensor1 = s1.getAvg(10);
 
-	uint32_t act_s2 = 0;
-	uint32_t act_s3 = 0;
+	//uint32_t act_s2 = 0;
+	//uint32_t act_s3 = 0;
 	int pos_s2 = (int) s2.getAvg(10);
-	uint16_t old_pos_s2 = s2.getAvg(10,10);
+	//uint16_t old_pos_s2 = s2.getAvg(10,10);
 	int pos_s3 = (int) s3.getAvg(10);
-	uint16_t old_pos_s3 = s3.getAvg(10,10);
+	//uint16_t old_pos_s3 = s3.getAvg(10,10);
 
 	/*
 	if(pos_s2 > 0)
@@ -200,7 +203,9 @@ turn_value = ( TURN_MID - act) ; //- map(act_s2,0,1023,0,TURN_MID-TURN_MIN) + ma
 		turn_value = TURN_MID - (turn_value - TURN_MID);
 	}
 
-	//turn_value = map(trim2,0,1023,0,180);
+	turn_value = map(500,0,1023,0,180);
+	fw = map(trim2,0,1023,0,180);
+	bw = 0;
 }
 
 void controlAndActuate()
@@ -211,50 +216,41 @@ void controlAndActuate()
 
 
 
-
-
-
-
-void setup()
+void check_button()
 {
-	//Wire.begin();
-	noInterrupts();
-	#if SERIAL_DEBUG
-	Serial.begin(115200);
-	Serial.println("Start of program");
-	#endif
-	//tof_sensor.init();
-	//tof_sensor.setMeasurementTimingBudget(50);
-	//tof_sensor.setTimeout(500);
-	pinMode(EN_PIN,INPUT);
+	//digitalRead(BUTTON_PIN);
 
+	//Serial.println(digitalRead(BUTTON_PIN));
+	if(digitalRead(BUTTON_PIN)==0)
+	{
+		com.out("button pressed ");
+		//delay(10);
+		//tof.device_info();
+		com.outln("done");
+	}
 
-
-	t4.setup();
-	s.setup_timer();
-	s.add_task(Task("readSensors",4,&readSensors));
-	s.add_task(Task("controlAndActuate",40,&controlAndActuate));
-	s.add_task(Task("detect_standstill",300,&detect_standstill));
-
-	interrupts();
-	turn.attach(TURN_PIN);
-	turn.write(turn_value);
-	//tof_sensor.startContinuous(100);
 
 }
 
+char buff [20];
 
-
-
-
-
-
-void loop()
+void print_exe_times()
 {
-	debug_print("Main loop start");
-	if (s.task_ovf()) {
-		debug_print("Task has ovf!!!");
+		com.outln("Execute Times:");
+	for(int i=0; i< s.get_task_count(); ++i)
+	{
+		com.out(s.get_task(i).name);
+		com.out(" ");
+String(s.get_task(i).exe_time_max).toCharArray(buff,20);
+		com.out(buff);
+		com.out(", ");
 	}
+	com.outln("");
+}
+
+void print_info()
+{
+	print_exe_times();
 	debug_print("Trim1: " + String(trim1));
 	debug_print("Trim2: " + String(trim2));
 	debug_print("sensor1: " + String(s1.getAvg(10)));
@@ -263,18 +259,63 @@ void loop()
 	debug_print("FW: " + String(fw));
 	debug_print("BW: " + String(bw));
 	debug_print("Turn: " + String(turn_value));
+
+}
+
+
+
+void setup()
+{
+	//Wire.begin();
+	//tof.device_init();
+	noInterrupts();
+	//tof_sensor.init();
+	//tof_sensor.setMeasurementTimingBudget(50);
+	//tof_sensor.setTimeout(500);
+	pinMode(EN_PIN,INPUT);
+	pinMode(BUTTON_PIN,INPUT_PULLUP);
+
+
+	t4.setup();
+	s.setup_timer();
+	//s.add_task(Task("check_button",100,&check_button));
+	s.add_task(Task("print info",1000,&print_info));
+	s.add_task(Task("readSensors",50,&readSensors));
+	s.add_task(Task("controlAndActuate",40,&controlAndActuate));
+	//s.add_task(Task("detect_standstill",100,&detect_standstill));
+
+
+	interrupts();
+	turn.attach(TURN_PIN);
+	turn.write(turn_value);
+
+	//tof.Device_info();
+
+	//tof_sensor.startContinuous(100);
+
+}
+
+
+void loop()
+{
+	//com.outln("Main loop start");
+	if (s.task_ovf()) {
+		com.out("Task has ovf!!!\n");
+	}
+	/*
 	//debug_print("Act_s2: " + String(debug_act));
 	//debug_print("Act_s3: " + String(debug_act_s3));
 	debug_print("Dev: " + String(s2.getDev(50)+s3.getDev(50)));
 	//debug_print("EN_PIN: " + String(digitalRead(EN_PIN)));
 	debug_print("FW_SPEED: " + String(FW_SPEED));
-	/*
 	for(int i=0; i<10; ++i)
 	debug_print("sensor1 prev: " + String(s1.get(i)));
-	*/
-	s.print_exe_times();
 
-	/*
+	//s.print_exe_times();
+
+
+	//check_button();
+
 	uint32_t start = s.int_count;
 	debug_print("Main loop start");
 	Serial.println(OCR3A);
@@ -291,11 +332,15 @@ void loop()
 	  if (tof_sensor.timeoutOccurred()) { Serial.print(" TIMEOUT"); }
 
 	  Serial.println();
-*/
-	delay(500);
+	//delay(500);
 	//debug_print("Loop Time: " + String(s.int_count-start));
 	//debug_print(String(OCR3A));
 	//debug_print("T_int: " + String(s.int_count));
+
+	 */
+	//check_button();
+	com.send();
+	//delay(100);
 
 
 }

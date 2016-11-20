@@ -31,7 +31,7 @@
 
 #include "vl53l0x_api_strings.h"
 #include "vl53l0x_def.h"
-#include "../../platform/inc/vl53l0x_platform.h"
+#include "vl53l0x_platform.h"
 
 #ifdef __cplusplus
 extern "C"

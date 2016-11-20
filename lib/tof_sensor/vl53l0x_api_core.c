@@ -26,9 +26,9 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  ******************************************************************************/
 
-#include "../inc/vl53l0x_api.h"
-#include "../inc/vl53l0x_api_core.h"
-#include "../inc/vl53l0x_api_calibration.h"
+#include "vl53l0x_api.h"
+#include "vl53l0x_api_core.h"
+#include "vl53l0x_api_calibration.h"
 
 
 #ifndef __KERNEL__
@@ -129,7 +129,7 @@ uint32_t VL53L0X_isqrt(uint32_t num)
 	 */
 
 	uint32_t  res = 0;
-	uint32_t  bit = 1 << 30;
+	uint32_t  bit = (uint32_t) 1 << 30;
 	/* The second-to-top bit is set:
 	 *	1 << 14 for 16-bits, 1 << 30 for 32 bits */
 
@@ -233,7 +233,7 @@ VL53L0X_Error VL53L0X_get_info_from_device(VL53L0X_DEV Dev, uint8_t option)
 	int i;
 
 
-	LOG_FUNCTION_START("");
+	//LOG_FUNCTION_START("");
 
 	ReadDataFromDeviceDone = VL53L0X_GETDEVICESPECIFICPARAMETER(Dev,
 			ReadDataFromDeviceDone);
@@ -470,7 +470,7 @@ VL53L0X_Error VL53L0X_get_info_from_device(VL53L0X_DEV Dev, uint8_t option)
 				byte);
 	}
 
-	LOG_FUNCTION_END(Status);
+	//LOG_FUNCTION_END(Status);
 	return Status;
 }
 
@@ -1920,13 +1920,13 @@ VL53L0X_Error VL53L0X_calc_sigma_estimate(VL53L0X_DEV Dev,
 		 * values are small enough such that32 bits will not be
 		 * exceeded.
 		 */
-		pwMult *= ((1 << 16) - xTalkCorrection);
+		pwMult *= (((uint32_t)1 << 16) - xTalkCorrection);
 
 		/* (FixPoint3232 >> 16) = FixPoint1616 */
 		pwMult =  (pwMult + c16BitRoundingParam) >> 16;
 
 		/* FixPoint1616 + FixPoint1616 = FixPoint1616 */
-		pwMult += (1 << 16);
+		pwMult += ((uint32_t)1 << 16);
 
 		/*
 		 * At this point the value will be 1.xx, therefore if we square

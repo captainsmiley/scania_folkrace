@@ -30,7 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define VL53L0X_API_STRINGS_H_
 
 #include "vl53l0x_def.h"
-#include "../../platform/inc/vl53l0x_platform.h"
+#include "vl53l0x_platform.h"
 
 #ifdef __cplusplus
 extern "C" {

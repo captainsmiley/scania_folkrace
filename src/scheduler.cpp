@@ -18,6 +18,8 @@ Task Scheduler::task_vec[5] = {
 
 void Scheduler::main_tick()
 {
+	t3.set_ocr_interrupt(false);
+	interrupts();
   int_count++;
   for (uint8_t i=0;i<task_count;++i)
   {
@@ -30,13 +32,16 @@ void Scheduler::main_tick()
       }
       int old_int_count = int_count;
       task_vec[i].running = true;
-      interrupts();
+	  t3.set_ocr_interrupt(true);
       task_vec[i].fp();
+      t3.set_ocr_interrupt(false);
      // noInterrupts();
       task_vec[i].running = false;
       task_vec[i].exe_time = int_count-old_int_count;
+      if (task_vec[i].exe_time > task_vec[i].exe_time_max) task_vec[i].exe_time_max = task_vec[i].exe_time;
     }
   }
+  t3.set_ocr_interrupt(true);
 
   //if (int_count > 10000) int_count = 0;
 }
@@ -73,10 +78,24 @@ String Scheduler::name_of_ovf_task()
 
 void Scheduler::print_exe_times()
 {
+
+	t3.set_ocr_interrupt(false);
   for(uint8_t i=0;i<task_count;++i)
   {
+	Serial.println("Execution times");
     Serial.println(task_vec[i].name + String(task_vec[i].exe_time));
   }
+  t3.set_ocr_interrupt(true);
+}
+
+const Task& Scheduler::get_task(uint8_t n) const
+{
+	return task_vec[n];
+}
+
+uint8_t Scheduler::get_task_count() const
+{
+	return task_count;
 }
 
 void Scheduler::setup_timer()
@@ -85,4 +104,6 @@ void Scheduler::setup_timer()
 	t3.set_mode(Timer3::CTC_OCR);
 	t3.set_dt_ocr(1);
 	t3.set_ocr_interrupt(true);
+	//t3.set_ocr_interrupt(false);
+	//t3.set_ocr_interrupt(true);
 }

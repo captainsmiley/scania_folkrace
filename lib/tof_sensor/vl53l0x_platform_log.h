@@ -70,7 +70,7 @@ enum {
 };
 
 
-#ifdef VL53L0X_LOG_ENABLE
+#ifdef VL53L0X_LOG_ENABLE_TG
 
 #include <sys/time.h>
 
@@ -87,14 +87,11 @@ void trace_print_module_function(uint32_t module, uint32_t level, uint32_t funct
 
 #define LOG_GET_TIME() (int)clock()
 
-#define _LOG_FUNCTION_START(module, fmt, ... ) \
-        trace_print_module_function(module, _trace_level, TRACE_FUNCTION_ALL, "%ld <START> %s "fmt"\n", LOG_GET_TIME(), __FUNCTION__, ##__VA_ARGS__);
+#define _LOG_FUNCTION_START(module, fmt, ... ) Serial.print("log")
 
-#define _LOG_FUNCTION_END(module, status, ... )\
-        trace_print_module_function(module, _trace_level, TRACE_FUNCTION_ALL, "%ld <END> %s %d\n", LOG_GET_TIME(), __FUNCTION__, (int)status, ##__VA_ARGS__)
+#define _LOG_FUNCTION_END(module, status, ... ) Serial.print("log")
 
-#define _LOG_FUNCTION_END_FMT(module, status, fmt, ... )\
-        trace_print_module_function(module, _trace_level, TRACE_FUNCTION_ALL, "%ld <END> %s %d "fmt"\n", LOG_GET_TIME(),  __FUNCTION__, (int)status,##__VA_ARGS__)
+#define _LOG_FUNCTION_END_FMT(module, status, fmt, ... ) Serial.print("log")
 
 // __func__ is gcc only
 //#define VL53L0X_ErrLog( fmt, ...)  fprintf(stderr, "VL53L0X_ErrLog %s" fmt "\n", __func__, ##__VA_ARGS__)
@@ -106,7 +103,8 @@ void trace_print_module_function(uint32_t module, uint32_t level, uint32_t funct
     #define _LOG_FUNCTION_END_FMT(module, status, fmt, ... ) (void)0
 #endif /* else */
 
-#define VL53L0X_COPYSTRING(str, ...) strcpy(str, ##__VA_ARGS__)
+//#define VL53L0X_COPYSTRING(str, ...) strcpy(str, ##__VA_ARGS__)
+#define VL53L0X_COPYSTRING(str, from) strcpy(str, from)
 
 #ifdef __cplusplus
 }

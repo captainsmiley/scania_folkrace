@@ -34,9 +34,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * provide variable word size byte/Word/dword VL6180x register access via i2c
  *
  */
-#include "../inc/vl53l0x_platform.h"
-#include "../inc/vl53l0x_i2c_platform.h"
-#include "../../core/inc/vl53l0x_api.h"
+#include "vl53l0x_platform.h"
+#include "vl53l0x_i2c_platform.h"
+#include "vl53l0x_api.h"
 
 #define LOG_FUNCTION_START(fmt, ... )           _LOG_FUNCTION_START(TRACE_MODULE_PLATFORM, fmt, ##__VA_ARGS__)
 #define LOG_FUNCTION_END(status, ... )          _LOG_FUNCTION_END(TRACE_MODULE_PLATFORM, status, ##__VA_ARGS__)
@@ -62,7 +62,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #define I2C_BUFFER_CONFIG 0
 /** Maximum buffer size to be used in i2c */
-#define VL53L0X_MAX_I2C_XFER_SIZE   64 /* Maximum buffer size to be used in i2c */
+#define VL53L0X_MAX_I2C_XFER_SIZE   32 /* Maximum buffer size to be used in i2c */
 
 #if I2C_BUFFER_CONFIG == 0
     /* GLOBAL config buffer */

@@ -88,7 +88,7 @@ extern "C" {
 
 
 #include "vl53l0x_device.h"
-#include "../../platform/inc/vl53l0x_types.h"
+#include "vl53l0x_types.h"
 
 
 /****************************************

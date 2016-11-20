@@ -1,4 +1,19 @@
+/*
+ * COPYRIGHT (C) STMicroelectronics 2014. All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * STMicroelectronics ("Confidential Information").  You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with STMicroelectronics
+ *
+ * Programming Golden Rule: Keep it Simple!
+ *
+ */
+
 /**
+ * @file   VL53L0X_platform.h
+ * @brief  Function prototype definitions for Ewok Platform layer.
  *
  */
 
@@ -6,42 +21,115 @@
 #ifndef _VL53L0X_I2C_PLATFORM_H_
 #define _VL53L0X_I2C_PLATFORM_H_
 
-#include "../../core/inc/vl53l0x_def.h"
+#include "vl53l0x_def.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 
 
-
-/**
- *  @brief Typedef defining .\n
- * The developer shoud modify this to suit the platform being deployed.
- *
- */
-
-// enum  {TRUE = true, FALSE = false};
-
-/**
- * @brief Typedef defining 8 bit unsigned char type.\n
- * The developer shoud modify this to suit the platform being deployed.
- *
- */
 
 #ifndef bool_t
 typedef unsigned char bool_t;
 #endif
 
 
+#define	   I2C                0x01
+#define	   SPI                0x00
 
-int VL53L0_i2c_init();
+#define    COMMS_BUFFER_SIZE    64  // MUST be the same size as the SV task buffer
+
+#define    BYTES_PER_WORD        2
+#define    BYTES_PER_DWORD       4
+
+#define    VL53L0X_MAX_STRING_LENGTH_PLT       256
+
+
+    /**
+ * @brief  Initialise platform serial comms.
+ *
+ * @param  comPortStr   - String to indicate the comm port
+ * @param  baudRate     - Bau rate
+ *
+ * @return status - status 0 = ok, 1 = error
+ *
+ */                                      
+int VL53L0X_i2c_init();
 
                                           
-extern "C" {
-int32_t VL53L0X_write_multi(uint8_t address, uint8_t index, uint8_t  *pdata, int32_t count);
+/**
+ * @brief  Close platform comms.
+ *
+ * @return status - status 0 = ok, 1 = error
+ *
+ */
+
+int32_t VL53L0X_comms_close(void);
+
+/**
+ * @brief  Cycle Power to Device
+ *
+ * @return status - status 0 = ok, 1 = error
+ *
+ */
+
+int32_t VL53L0X_cycle_power(void);
+
+
+/**
+ * @brief Writes the supplied byte buffer to the device
+ *
+ * Wrapper for SystemVerilog Write Multi task
+ *
+ * @code
+ *
+ * Example:
+ *
+ * uint8_t *spad_enables;
+ *
+ * int status = VL53L0X_write_multi(RET_SPAD_EN_0, spad_enables, 36);
+ *
+ * @endcode
+ *
+ * @param  address - uint8_t device address value
+ * @param  index - uint8_t register index value
+ * @param  pdata - pointer to uint8_t buffer containing the data to be written
+ * @param  count - number of bytes in the supplied byte buffer
+ *
+ * @return status - SystemVerilog status 0 = ok, 1 = error
+ *
+ */
+
+int32_t VL53L0X_write_multi(uint8_t address, uint8_t index, uint8_t  *pdata, uint16_t count);
+
+
+/**
+ * @brief  Reads the requested number of bytes from the device
+ *
+ * Wrapper for SystemVerilog Read Multi task
+ *
+ * @code
+ * 
+ * Example:
+ *
+ * uint8_t buffer[COMMS_BUFFER_SIZE];
+ *
+ * int status = status  = VL53L0X_read_multi(DEVICE_ID, buffer, 2)
+ *
+ * @endcode
+ *
+ * @param  address - uint8_t device address value
+ * @param  index - uint8_t register index value
+ * @param  pdata - pointer to the uint8_t buffer to store read data
+ * @param  count - number of uint8_t's to read
+ *
+ * @return status - SystemVerilog status 0 = ok, 1 = error
+ *
+ */
+
 int32_t VL53L0X_read_multi(uint8_t address,  uint8_t index, uint8_t  *pdata, int32_t count);
-
-}
-
-
 
 
 /**
@@ -292,6 +380,9 @@ int32_t VL53L0X_get_timer_value(int32_t *ptimer_count);
 
 
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif //_VL53L0X_I2C_PLATFORM_H_
 
