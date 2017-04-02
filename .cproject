@@ -5,13 +5,13 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="0.910961921" moduleId="org.eclipse.cdt.core.settings" name="Default">
 				<externalSettings/>
 				<extensions>
-					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.VCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -25,10 +25,9 @@
 								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.239157887" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
 									<listOptionValue builtIn="false" value="${USERPROFILE}\.platformio\packages\framework-arduinoavr\cores\arduino"/>
 									<listOptionValue builtIn="false" value="${USERPROFILE}\.platformio\packages\framework-arduinoavr\variants\sparkfun_promicro"/>
-									<listOptionValue builtIn="false" value="${USERPROFILE}\.platformio\packages\framework-arduinoavr\libraries\Wire\src"/>
-									<listOptionValue builtIn="false" value="D:\FilesHDD\Dokument\GitHub\scania_folkrace\lib\tof_sensor"/>
 									<listOptionValue builtIn="false" value="${USERPROFILE}\.platformio\packages\framework-arduinoavr\libraries\Servo\src"/>
 									<listOptionValue builtIn="false" value="D:\FilesHDD\Dokument\GitHub\scania_folkrace\src"/>
+									<listOptionValue builtIn="false" value="D:\FilesHDD\Dokument\GitHub\scania_folkrace\lib\HashMap"/>
 									<listOptionValue builtIn="false" value="D:\FilesHDD\Dokument\GitHub\scania_folkrace\lib\tof_sensor"/>
 									<listOptionValue builtIn="false" value="D:\FilesHDD\Dokument\GitHub\scania_folkrace\lib\vl53l0x"/>
 									<listOptionValue builtIn="false" value="${USERPROFILE}\.platformio\packages\framework-arduinoavr\libraries\Bridge\src"/>
@@ -76,10 +75,9 @@
 								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.1096940598" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
 									<listOptionValue builtIn="false" value="${USERPROFILE}\.platformio\packages\framework-arduinoavr\cores\arduino"/>
 									<listOptionValue builtIn="false" value="${USERPROFILE}\.platformio\packages\framework-arduinoavr\variants\sparkfun_promicro"/>
-									<listOptionValue builtIn="false" value="${USERPROFILE}\.platformio\packages\framework-arduinoavr\libraries\Wire\src"/>
-									<listOptionValue builtIn="false" value="D:\FilesHDD\Dokument\GitHub\scania_folkrace\lib\tof_sensor"/>
 									<listOptionValue builtIn="false" value="${USERPROFILE}\.platformio\packages\framework-arduinoavr\libraries\Servo\src"/>
 									<listOptionValue builtIn="false" value="D:\FilesHDD\Dokument\GitHub\scania_folkrace\src"/>
+									<listOptionValue builtIn="false" value="D:\FilesHDD\Dokument\GitHub\scania_folkrace\lib\HashMap"/>
 									<listOptionValue builtIn="false" value="D:\FilesHDD\Dokument\GitHub\scania_folkrace\lib\tof_sensor"/>
 									<listOptionValue builtIn="false" value="D:\FilesHDD\Dokument\GitHub\scania_folkrace\lib\vl53l0x"/>
 									<listOptionValue builtIn="false" value="${USERPROFILE}\.platformio\packages\framework-arduinoavr\libraries\Bridge\src"/>
@@ -127,10 +125,9 @@
 								<option id="org.eclipse.cdt.build.core.settings.holder.incpaths.41298875" name="Include Paths" superClass="org.eclipse.cdt.build.core.settings.holder.incpaths" valueType="includePath">
 									<listOptionValue builtIn="false" value="${USERPROFILE}\.platformio\packages\framework-arduinoavr\cores\arduino"/>
 									<listOptionValue builtIn="false" value="${USERPROFILE}\.platformio\packages\framework-arduinoavr\variants\sparkfun_promicro"/>
-									<listOptionValue builtIn="false" value="${USERPROFILE}\.platformio\packages\framework-arduinoavr\libraries\Wire\src"/>
-									<listOptionValue builtIn="false" value="D:\FilesHDD\Dokument\GitHub\scania_folkrace\lib\tof_sensor"/>
 									<listOptionValue builtIn="false" value="${USERPROFILE}\.platformio\packages\framework-arduinoavr\libraries\Servo\src"/>
 									<listOptionValue builtIn="false" value="D:\FilesHDD\Dokument\GitHub\scania_folkrace\src"/>
+									<listOptionValue builtIn="false" value="D:\FilesHDD\Dokument\GitHub\scania_folkrace\lib\HashMap"/>
 									<listOptionValue builtIn="false" value="D:\FilesHDD\Dokument\GitHub\scania_folkrace\lib\tof_sensor"/>
 									<listOptionValue builtIn="false" value="D:\FilesHDD\Dokument\GitHub\scania_folkrace\lib\vl53l0x"/>
 									<listOptionValue builtIn="false" value="${USERPROFILE}\.platformio\packages\framework-arduinoavr\libraries\Bridge\src"/>
@@ -251,14 +248,6 @@
 				<buildCommand>platformio</buildCommand>
 				<buildArguments>-f -c eclipse</buildArguments>
 				<buildTarget>init --ide eclipse</buildTarget>
-				<stopOnError>true</stopOnError>
-				<useDefaultCommand>true</useDefaultCommand>
-				<runAllBuilders>false</runAllBuilders>
-			</target>
-			<target name="PlatformIO: Build Upload" path="" targetID="org.eclipse.cdt.build.MakeTargetBuilder">
-				<buildCommand>platformio</buildCommand>
-				<buildArguments>-f -c eclipse</buildArguments>
-				<buildTarget>run --target upload</buildTarget>
 				<stopOnError>true</stopOnError>
 				<useDefaultCommand>true</useDefaultCommand>
 				<runAllBuilders>false</runAllBuilders>

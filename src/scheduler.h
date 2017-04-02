@@ -15,7 +15,7 @@ public:
   void setup();
   void setup_timer();
   friend class Timer3;
-  void add_task(Task t);
+  void add_task(Task &t);
   bool task_ovf();
   String name_of_ovf_task();
   const Task& get_task(uint8_t n) const;
@@ -25,7 +25,7 @@ protected:
   static void main_tick();
 private:
   static uint8_t task_count;
-  static Task task_vec [];
+  static Task* task_vec [];
 };
 
 
